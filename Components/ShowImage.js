@@ -11,11 +11,17 @@ import {
 } from 'react-native';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import { Dimensions } from 'react-native';
+import * as Permissions from 'expo-permissions';
+import * as MediaLibrary from 'expo-media-library';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export default function ShowImage({ navigation }) {
+export default function ShowImage({ navigation, route }) {
+	const ImagePath = route.params.image;
+	console.log(ImagePath);
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<StatusBar style="auto" />
@@ -26,7 +32,7 @@ export default function ShowImage({ navigation }) {
 						height: windowHeight / 1.75,
 					}}
 					fadeDuration={1000}
-					source={require('../assets/orange.jpg')}
+					source={{ uri: ImagePath }}
 				/>
 			</View>
 
@@ -42,10 +48,10 @@ export default function ShowImage({ navigation }) {
 				<TouchableOpacity
 					style={styles.backbutton}
 					onPress={() => {
-						navigation.goBack();
+						navigation.navigate('Home');
 					}}
 				>
-					<Text style={styles.backbuttontext}>Go Back</Text>
+					<Text style={styles.backbuttontext}>Go Home</Text>
 				</TouchableOpacity>
 			</View>
 		</SafeAreaView>

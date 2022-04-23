@@ -78,7 +78,7 @@ export default function ShowDrawingAccuracy({ navigation }) {
 					<TouchableOpacity
 						style={styles.smallbutton}
 						onPress={() => {
-							navigation.navigate('DrawingAccuracy');
+							navigation.navigate('LineArt');
 						}}
 					>
 						<Text style={styles.smallbuttontxt}>Show drawing again</Text>

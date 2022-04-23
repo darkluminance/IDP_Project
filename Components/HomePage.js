@@ -10,33 +10,37 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
-
-// import { Camera } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import * as MediaLibrary from 'expo-media-library';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 
 export default function HomePage({ navigation }) {
-	//Camera stuff
-	/* const [hasPermission, setHasPermission] = useState(null);
-	const [type, setType] = useState(Camera.Constants.Type.back);
+	const [image, setImage] = useState(null);
 
-	useEffect(() => {
-		(async () => {
-			const { status } = await Camera.requestCameraPermissionsAsync();
-			setHasPermission(status === 'granted');
-		})();
-	}, []);
+	const pickImage = async () => {
+		// No permissions request is necessary for launching the image library
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			allowsEditing: true,
+			aspect: [1, 1],
+			quality: 1,
+		});
 
-	// useLayoutEffect(() => {
-	// 	navigation.setOptions({ headerShown: false });
-	// }, [navigation]);
+		if (result.uri) navigation.navigate('Image', { image: result.uri });
+	};
 
-	if (hasPermission === null) {
-		return <View />;
-	}
-	if (hasPermission === false) {
-		return <Text>No access to camera</Text>;
-	} */
+	const takeImage = async () => {
+		// No permissions request is necessary for launching the image library
+		let result = await ImagePicker.launchCameraAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			allowsEditing: true,
+			aspect: [1, 1],
+			quality: 1,
+		});
+
+		if (result.uri) navigation.navigate('Image', { image: result.uri });
+	};
 
 	//Main app stuff
 	return (
@@ -56,7 +60,7 @@ export default function HomePage({ navigation }) {
 				<TouchableOpacity
 					style={styles.buttons}
 					onPress={() => {
-						navigation.navigate('Image');
+						pickImage();
 					}}
 				>
 					<Text style={styles.buttontext}>Upload Image</Text>
@@ -64,7 +68,7 @@ export default function HomePage({ navigation }) {
 				<TouchableOpacity
 					style={styles.buttons}
 					onPress={() => {
-						navigation.navigate('Image');
+						takeImage();
 					}}
 				>
 					<Text style={styles.buttontext}>Scan from Phone</Text>
